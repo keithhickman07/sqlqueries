@@ -1,0 +1,32 @@
+-- PAYMENTS
+
+SELECT
+t1.USER_CD
+,t1.PAYM_DATE
+,t1.BILL_ID_DB
+,t1.BILL_ID_CR
+,t1.PAYM_AMOUNT/100 AS PAYM_AMOUNT
+,t1.PAYM_TERMS_TAKEN
+,t1.TRANS_TYPE_DB
+,t1.TRANS_TYPE_CR
+,t1.PAYM_STATUS
+,t1.TRANS_NUM_DB
+,t1.TRANS_NUM_CR
+,t3.BILL_NUM
+,t3.BILL_COMPANY_NAME
+,t2.IVCH_DATE_ENT
+,t4.ship_id
+,t4.sic_cd
+,t5.sic_desc
+
+FROM dms.applied_payments t1
+,dms.invoice_headers t2
+,dms.credit_masters t3
+,dms.cust_sic_codes t4
+,dms.sic_codes t5
+
+WHERE
+t1.TRANS_NUM_DB = t2.INVOICE_NUM(+)
+AND t2.BILL_ID = t3.BILL_ID(+)
+and t2.ship_id = t4.ship_id(+)
+and t4.sic_cd = t5.sic_cd(+)
